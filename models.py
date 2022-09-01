@@ -13,6 +13,7 @@ from sqlalchemy import (
     Float,
     ForeignKey,
     Integer,
+    SmallInteger,
     String,
     Unicode,
     and_,
@@ -51,6 +52,7 @@ class User(Base):
     username = Column(Unicode, nullable=False, index=True)
     password = Column(String(255), nullable=False)
     email = Column(Unicode, default=None, nullable=True)
+    darkmode = Column(SmallInteger, default=-1, nullable=True)
 
     # this relationship is used for persistence
     friends: User = relationship(
@@ -72,9 +74,10 @@ class User(Base):
         "Response", back_populates="user", cascade="all"
     )
 
-    def __init__(self, username, password, email=None, password_crypt=None):
+    def __init__(self, username, password, email=None, password_crypt=None, darkmode=-1):
         self.username = username
         self.email = email
+        self.darkmode = darkmode;
         self.set_password(password)
         if password_crypt:
             self.password = password_crypt

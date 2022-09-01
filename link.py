@@ -356,6 +356,7 @@ class User(web.View):
         new_password_1 = str(form["new_password_1"])
         new_password_2 = str(form["new_password_2"])
         new_email = str(form["new_email"])
+        darkmode = int(form["darkmode"])
 
         user = _get_user(orm, session["username"])
         if user.token != str(form["csrf_token"]):
@@ -385,6 +386,8 @@ class User(web.View):
             user.email = new_email
         else:
             user.email = None
+
+        user.darkmode = darkmode or -1
 
         raise web.HTTPFound("/user")
 
